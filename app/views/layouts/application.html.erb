@@ -12,6 +12,10 @@
 	<p class="notice"><%= notice %></p>
 	<p class="alert"><%= alert %></p>
 
+  <% if flash[:punch_message] %>
+    <p><%= flash[:punch_message] %></p>
+  <% end %>
+
 	<%= yield %>
 
 </body>

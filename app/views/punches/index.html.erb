@@ -1,4 +1,12 @@
-<%= @user.uppercase_email %>
-<% @punches.each do |punch| %>
-	<h3><%= punch.created_at %></h3>
+<h3>Logged in as:</h3>
+<p><%= @user.email %></p>
+<% if @last_clock_in %>
+  <p>You last clocked in on <%= local_time(@last_clock_in) %>.</p>
+<% else %>
+  <p>You aren't currently clocked in.</p>
+<% end %>
+
+<%= form_tag "/punches", method: :post do %>
+  <%= hidden_field_tag @punch_param %>
+  <%= submit_tag @punch_type %>
 <% end %>
