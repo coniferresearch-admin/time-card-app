@@ -1,25 +1,27 @@
 class PunchesController < ApplicationController
   def index
-    if current_user
-      @user = current_user
-      @punches = current_user.punches if current_user.punches
+    @user = current_user
+    if current_user.punches.any? && current_user.punches.last.clock_out.nil?
+      @punch_type = "Clock Out"
+      @last_clock_in = current_user.punches.last.clock_in
     else
-      redirect_to '/users/sign_in'
+      @punch_type = "Clock In"
     end
+    @punch_param = @punch_type.split(' ').join('_').downcase
   end
 
   def create
-    input_event_type = params[:event_type]
-    punch = Punch.new(
-      event_type: input_event_type,
-      user_id: current_user.id
-    )
-    if punch.save
-      flash[:punch_message] = "#{punch.event_type} successfull." 
-      sign_out :user
-      redirect_to '/users/sign_in'
-    else
-      render 'index.html.erb'
+    if params[:clock_in]
+      Punch.create(
+        user_id: current_user.id,
+        clock_in: Time.zone.now
+      )
+      redirect_to '/'
+    elsif params[:clock_out]
+      current_user.punches.last.update(
+        clock_out: Time.zone.now
+      )
+      redirect_to '/'
     end
   end
 end

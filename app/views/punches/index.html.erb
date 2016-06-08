@@ -1,11 +1,12 @@
 <h3>Logged in as:</h3>
 <p><%= @user.email %></p>
-<%= form_tag "/punches", method: :post do %>
-  <%= select_tag :event_type, options_for_select(["Punch In", "Punch Out"]), include_blank: "Select..." %>
-  <%= submit_tag "Stamp Card" %>
+<% if @last_clock_in %>
+  <p>You last clocked in on <%= local_time(@last_clock_in) %>.</p>
+<% else %>
+  <p>You aren't currently clocked in.</p>
 <% end %>
-<ul>
-  <% @punches.each do |punch| %>
-  	<li><%= punch.event_type %> at <%= local_time(punch.created_at) %></li>
-  <% end %>
-</ul>
+
+<%= form_tag "/punches", method: :post do %>
+  <%= hidden_field_tag @punch_param %>
+  <%= submit_tag @punch_type %>
+<% end %>
