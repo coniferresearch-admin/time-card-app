@@ -8,15 +8,19 @@
 </head>
 <body>
 
-<!-- handles user login status messages -->
-	<p class="notice"><%= notice %></p>
-	<p class="alert"><%= alert %></p>
+	<!-- handles user login status messages -->
+	<div class="container">
+		<p class="notice"><%= notice %></p>
+		<p class="alert"><%= alert %></p>
+		<% if flash[:punch_message] %>
+			<div class="alert alert-info alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<strong><%= flash[:punch_message] %></strong>
+			</div>
+		<% end %>
 
-  <% if flash[:punch_message] %>
-    <p><%= flash[:punch_message] %></p>
-  <% end %>
-
-	<%= yield %>
+		<%= yield %>
+	</div>
 
 </body>
 </html>

@@ -8,5 +8,5 @@
 
 <%= form_tag "/punches", method: :post do %>
   <%= hidden_field_tag @punch_param %>
-  <%= submit_tag @punch_type %>
+  <%= submit_tag @punch_type, class: "btn btn-default" %>
 <% end %>
