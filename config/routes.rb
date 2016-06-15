@@ -3,6 +3,13 @@ Rails.application.routes.draw do
   get '/' => 'punches#index'
   post '/punches' => 'punches#create'
 
+  namespace :api do 
+    namespace :v1 do
+      post '/punches' => 'punches#create'
+      get '/punches/:purplemonkey/show' => 'punches#show'
+    end
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
