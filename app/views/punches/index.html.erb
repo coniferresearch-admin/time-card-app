@@ -8,5 +8,26 @@
 
 <%= form_tag "/punches", method: :post do %>
   <%= hidden_field_tag @punch_param %>
-  <%= submit_tag @punch_type %>
+  <%= submit_tag @punch_type, class: "btn btn-default" %>
 <% end %>
+
+<table class="table table-hover">
+	<caption><%= @user.email%>'s Recent Punches</caption>
+	<thead>
+		<tr>
+			<th>Clock In</th>
+			<th>Clock Out</th>
+			<th>Time</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @user.punches.reverse.each do |punch| %>
+			<tr>
+				<td><%= local_time(punch.clock_in) %></td>
+				<td><%= punch.clock_out ? local_time(punch.clock_out) : "clock out above" %></td>
+				<td><%= punch.clock_out ? punch.clock_out - punch.clock_in : "?" %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
